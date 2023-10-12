@@ -5,9 +5,10 @@ class VrtcalAppLovinAdaptersWrapper: NSObject, AdapterWrapperProtocol {
     
     var appLogger: Logger
     var sdkEventsLogger: Logger
+    var sdk = SDK.appLovin
     var delegate: AdapterWrapperDelegate
-    
-    var maInterstitial: MAInterstitialAd?
+
+    var maInterstitialAd: MAInterstitialAd?
     
     required init(
         appLogger: Logger,
@@ -20,9 +21,6 @@ class VrtcalAppLovinAdaptersWrapper: NSObject, AdapterWrapperProtocol {
     }
     
     func initializeSdk() {
-        appLogger.log()
-        
-        //AppLovin
         ALSdk.shared()!.mediationProvider = "max"
         ALSdk.shared()!.userIdentifier = "USER_ID"
         ALSdk.shared()!.settings.isVerboseLoggingEnabled = true
@@ -51,11 +49,11 @@ class VrtcalAppLovinAdaptersWrapper: NSObject, AdapterWrapperProtocol {
                 
             case .interstitial:
                 appLogger.log("AppLovin Interstitial - VRTMPInterstitialCustomEvent")
-                maInterstitial = MAInterstitialAd(
+                maInterstitialAd = MAInterstitialAd(
                     adUnitIdentifier: vrtcalAsSecondaryConfig.adUnitId
                 )
-                maInterstitial?.delegate = self
-                maInterstitial?.load()
+                maInterstitialAd?.delegate = self
+                maInterstitialAd?.load()
 
             case .rewardedVideo:
                 sdkEventsLogger.log("rewardedVideo not supported for AppLovin")
@@ -66,12 +64,16 @@ class VrtcalAppLovinAdaptersWrapper: NSObject, AdapterWrapperProtocol {
     }
     
     func showInterstitial() -> Bool {
-        if let maInterstitial {
-            maInterstitial.show()
+        if let maInterstitialAd {
+            maInterstitialAd.show()
             return true
         }
         
         return false
+    }
+    
+    func destroyInterstitial() {
+        maInterstitialAd = nil
     }
 }
 
