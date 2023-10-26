@@ -34,14 +34,14 @@ class VrtcalAppLovinAdaptersWrapper: NSObject, AdapterWrapperProtocol {
         }
     }
     
-    func handle(vrtcalAsSecondaryConfig: VrtcalAsSecondaryConfig) {
+    func handle(adTechConfig: AdTechConfig) {
         
-        switch vrtcalAsSecondaryConfig.placementType {
+        switch adTechConfig.placementType {
                 
             case .banner:
                 appLogger.log("AppLovin Banner - VRTMPBannerCustomEvent")
                 let maAdView = MAAdView(
-                    adUnitIdentifier: vrtcalAsSecondaryConfig.adUnitId
+                    adUnitIdentifier: adTechConfig.adUnitId
                 )
                 maAdView.delegate = self
                 delegate.provide(banner: maAdView)
@@ -50,7 +50,7 @@ class VrtcalAppLovinAdaptersWrapper: NSObject, AdapterWrapperProtocol {
             case .interstitial:
                 appLogger.log("AppLovin Interstitial - VRTMPInterstitialCustomEvent")
                 maInterstitialAd = MAInterstitialAd(
-                    adUnitIdentifier: vrtcalAsSecondaryConfig.adUnitId
+                    adUnitIdentifier: adTechConfig.adUnitId
                 )
                 maInterstitialAd?.delegate = self
                 maInterstitialAd?.load()
