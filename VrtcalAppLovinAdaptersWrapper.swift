@@ -44,7 +44,7 @@ class VrtcalAppLovinAdaptersWrapper: NSObject, AdapterWrapperProtocol {
                     adUnitIdentifier: adTechConfig.adUnitId
                 )
                 maAdView.delegate = self
-                delegate.provide(banner: maAdView)
+                delegate.adapterWrapperDidProvide(banner: maAdView)
                 maAdView.loadAd()
                 
             case .interstitial:
@@ -64,7 +64,7 @@ class VrtcalAppLovinAdaptersWrapper: NSObject, AdapterWrapperProtocol {
     }
     
     func showInterstitial() -> Bool {
-        if let maInterstitialAd {
+        if let maInterstitialAd, maInterstitialAd.isReady {
             maInterstitialAd.show()
             return true
         }
