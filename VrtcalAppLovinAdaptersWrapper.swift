@@ -39,7 +39,7 @@ class VrtcalAppLovinAdaptersWrapper: NSObject, AdapterWrapperProtocol {
         switch adTechConfig.placementType {
                 
             case .banner:
-                appLogger.log("AppLovin Banner - VRTMPBannerCustomEvent")
+                appLogger.log("AppLovin Banner - VRTMediationAdapter")
                 let maAdView = MAAdView(
                     adUnitIdentifier: adTechConfig.adUnitId
                 )
@@ -48,7 +48,7 @@ class VrtcalAppLovinAdaptersWrapper: NSObject, AdapterWrapperProtocol {
                 maAdView.loadAd()
                 
             case .interstitial:
-                appLogger.log("AppLovin Interstitial - VRTMPInterstitialCustomEvent")
+                appLogger.log("AppLovin Interstitial - VRTMediationAdapter")
                 maInterstitialAd = MAInterstitialAd(
                     adUnitIdentifier: adTechConfig.adUnitId
                 )
