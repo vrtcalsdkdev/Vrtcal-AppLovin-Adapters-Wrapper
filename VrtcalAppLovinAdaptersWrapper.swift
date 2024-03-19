@@ -21,11 +21,31 @@ class VrtcalAppLovinAdaptersWrapper: NSObject, AdapterWrapperProtocol {
     }
     
     func initializeSdk() {
-        ALSdk.shared()!.mediationProvider = "max"
-        ALSdk.shared()!.userIdentifier = "USER_ID"
-        ALSdk.shared()!.settings.isVerboseLoggingEnabled = true
+        appLogger.log()
         
-        ALSdk.shared()!.initializeSdk { (configuration: ALSdkConfiguration) in
+        // Create the initialization configuration
+        let alSdkInitializationConfiguration = ALSdkInitializationConfiguration(
+            sdkKey: "zX98f05BcqcbWKqKiHeqHpHOF9CFD46s7sQfrikSgw6AnroGcf22Ep1qH-IvnL4viE5rkF5qTNvBzT_EzNClPh"
+        ) { builder in
+            builder.mediationProvider = ALMediationProviderMAX
+            
+            // Get all the ad units we'll be using
+            let adUnitIdentifiers = AdTechConfigProvider.allCases.map {
+                $0.adTechConfig
+            }.filter {
+                $0.primarySdk == .appLovin
+            }.map {
+                $0.adUnitId
+            }
+            builder.adUnitIdentifiers = adUnitIdentifiers
+            
+            // Enable verbose logging
+            builder.settings.isVerboseLoggingEnabled = true
+        }
+        
+        ALSdk.shared()!.initialize(with: alSdkInitializationConfiguration) { (configuration: ALSdkConfiguration) in
+            self.appLogger.log("configuration: \(configuration)")
+            
             // Start loading ads
             self.sdkEventsLogger.log("AppLovin Initialized")
             if self.delegate.isSimulator {
