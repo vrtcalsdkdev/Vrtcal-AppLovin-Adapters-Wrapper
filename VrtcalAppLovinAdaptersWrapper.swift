@@ -30,15 +30,21 @@ class VrtcalAppLovinAdaptersWrapper: NSObject, AdapterWrapperProtocol {
             builder.mediationProvider = ALMediationProviderMAX
             
             // Get all the ad units we'll be using
-            let adUnitIdentifiers = AdTechConfigProvider.allCases.map {
-                $0.adTechConfig
-            }.filter {
-                $0.primarySdk == .appLovin
-            }.map {
-                $0.adUnitId
+            let adUnitIdentifiers = AdTechConfigProvider.allCases.compactMap {
+                let adTechConfig = $0.adTechConfig
+                if adTechConfig.primarySdk == .appLovin {
+                    return adTechConfig.adUnitId
+                }
+                
+                if adTechConfig.secondarySdk == .appLovin {
+                    return adTechConfig.secondaryAdUnitId
+                }
+                
+                return nil
             }
             builder.adUnitIdentifiers = adUnitIdentifiers
             
+            appLogger.log("adUnitIdentifiers: \(adUnitIdentifiers)")
             // Enable verbose logging
             builder.settings.isVerboseLoggingEnabled = true
         }
