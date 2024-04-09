@@ -49,7 +49,7 @@ class VrtcalAppLovinAdaptersWrapper: NSObject, AdapterWrapperProtocol {
             builder.settings.isVerboseLoggingEnabled = true
         }
         
-        ALSdk.shared()!.initialize(with: alSdkInitializationConfiguration) { (configuration: ALSdkConfiguration) in
+        ALSdk.shared().initialize(with: alSdkInitializationConfiguration) { (configuration: ALSdkConfiguration) in
             self.appLogger.log("configuration: \(configuration)")
             
             // Start loading ads
@@ -85,7 +85,7 @@ class VrtcalAppLovinAdaptersWrapper: NSObject, AdapterWrapperProtocol {
                 sdkEventsLogger.log("rewardedVideo not supported for AppLovin")
                 
             case .showDebugView:
-                ALSdk.shared()!.showMediationDebugger()
+                ALSdk.shared().showMediationDebugger()
         }
     }
     
