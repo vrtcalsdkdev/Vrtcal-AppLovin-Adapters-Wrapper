@@ -106,6 +106,7 @@ class VrtcalAppLovinAdaptersWrapper: NSObject, AdapterWrapperProtocol {
 extension VrtcalAppLovinAdaptersWrapper: MAAdDelegate {
     
     func didLoad(_ ad: MAAd) {
+        appLogger.log()
         sdkEventsLogger.log("AppLovin didLoad")
     }
     
@@ -113,18 +114,22 @@ extension VrtcalAppLovinAdaptersWrapper: MAAdDelegate {
         forAdUnitIdentifier adUnitIdentifier: String,
         withError error: MAError
     ) {
+        appLogger.log("error: \(error)")
         sdkEventsLogger.log("AppLovin didFailToLoad: \(error)")
     }
     
     func didDisplay(_ ad: MAAd) {
+        appLogger.log()
         sdkEventsLogger.log("AppLovin didDisplay")
     }
     
     func didHide(_ ad: MAAd) {
+        appLogger.log()
         sdkEventsLogger.log("AppLovin didHide")
     }
     
     func didClick(_ ad: MAAd) {
+        appLogger.log()
         sdkEventsLogger.log("AppLovin didClick")
     }
     
@@ -132,6 +137,7 @@ extension VrtcalAppLovinAdaptersWrapper: MAAdDelegate {
         toDisplay ad: MAAd,
         withError error: MAError
     ) {
+        appLogger.log("error: \(error)")
         sdkEventsLogger.log("AppLovin didFailToDisplay: \(error)")
     }
 }
