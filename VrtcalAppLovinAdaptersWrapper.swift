@@ -26,8 +26,8 @@ class VrtcalAppLovinAdaptersWrapper: NSObject, AdapterWrapperProtocol {
         // Create the initialization configuration
         let alSdkInitializationConfiguration = ALSdkInitializationConfiguration(
             sdkKey: "zX98f05BcqcbWKqKiHeqHpHOF9CFD46s7sQfrikSgw6AnroGcf22Ep1qH-IvnL4viE5rkF5qTNvBzT_EzNClPh"
-        ) { builder in
-            builder.mediationProvider = ALMediationProviderMAX
+        ) { (alSdkInitializationConfigurationBuilder: ALSdkInitializationConfigurationBuilder) in
+            alSdkInitializationConfigurationBuilder.mediationProvider = ALMediationProviderMAX
             
             // Get all the ad units we'll be using
             let adUnitIdentifiers = AdTechConfigProvider.allCases.compactMap {
@@ -42,12 +42,13 @@ class VrtcalAppLovinAdaptersWrapper: NSObject, AdapterWrapperProtocol {
                 
                 return nil
             }
-            builder.adUnitIdentifiers = adUnitIdentifiers
+            alSdkInitializationConfigurationBuilder.adUnitIdentifiers = adUnitIdentifiers
             
             appLogger.log("adUnitIdentifiers: \(adUnitIdentifiers)")
-            // Enable verbose logging
-            builder.settings.isVerboseLoggingEnabled = true
         }
+        
+        // Enable verbose logging
+        ALSdk.shared().settings.isVerboseLoggingEnabled = true
         
         ALSdk.shared().initialize(with: alSdkInitializationConfiguration) { (configuration: ALSdkConfiguration) in
             self.appLogger.log("configuration: \(configuration)")
