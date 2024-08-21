@@ -55,9 +55,6 @@ class VrtcalAppLovinAdaptersWrapper: NSObject, AdapterWrapperProtocol {
             
             // Start loading ads
             self.sdkEventsLogger.log("AppLovin Initialized")
-            if self.delegate.isSimulator {
-                self.sdkEventsLogger.log("Note that VRTAsSecondary will not work on simulator")
-            }
         }
     }
     
